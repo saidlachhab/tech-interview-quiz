@@ -1,128 +1,42 @@
 [
-  {
-    "category": "Java",
-    "difficulty": "medior",
-    "question": "Quelle est la différence entre une classe record et une classe classique en Java 17+ ?",
-    "answer": "Un record est immuable par défaut, génère automatiquement equals/hashCode/toString et le constructeur canonique à partir des composants. Il sert à modéliser des porteurs de données (DTO) de façon concise.",
-    "tags": ["java17", "records"]
-  },
-  {
-    "category": "Java",
-    "difficulty": "medior",
-    "question": "Expliquez le fonctionnement des Virtual Threads (Project Loom, Java 21).",
-    "answer": "Threads légers gérés par la JVM (et non l'OS) permettant de créer des millions de threads sans épuiser les ressources système ; idéal pour code bloquant à haute concurrence sans réécrire en réactif.",
-    "tags": ["java21", "concurrency", "loom"]
-  },
-  {
-    "category": "Java",
-    "difficulty": "senior",
-    "question": "Quelle est la différence entre CompletableFuture et un Thread classique pour la programmation asynchrone ?",
-    "answer": "CompletableFuture permet de composer des traitements async (thenApply, thenCompose, allOf) sans bloquer de thread dédié, avec gestion d'erreurs via exceptionally/handle, contrairement à un Thread brut qui est bas niveau et non composable.",
-    "tags": ["concurrency", "async"]
-  },
-  {
-    "category": "Java",
-    "difficulty": "senior",
-    "question": "Comment fonctionne le Garbage Collector G1 et quand privilégier ZGC ?",
-    "answer": "G1 découpe le tas en régions et priorise le nettoyage des régions les plus 'garbage-riches' (pauses prévisibles). ZGC vise des pauses sub-milliseconde même sur des tas très volumineux (>100 Go), au prix d'un léger surcoût CPU/mémoire.",
-    "tags": ["jvm", "gc"]
-  },
-  {
-    "category": "Java",
-    "difficulty": "medior",
-    "question": "Différence entre HashMap, ConcurrentHashMap et Collections.synchronizedMap ?",
-    "answer": "HashMap n'est pas thread-safe. synchronizedMap encapsule toutes les opérations avec un seul lock (contention forte). ConcurrentHashMap segmente les verrous (ou utilise CAS) pour un accès concurrent performant sans lock global.",
-    "tags": ["collections", "concurrency"]
-  },
-  {
-    "category": "Java",
-    "difficulty": "medior",
-    "question": "Qu'est-ce que le pattern matching for switch (Java 21) apporte ?",
-    "answer": "Permet de matcher un objet sur son type et de le décomposer (record patterns), rendant le code plus lisible qu'une cascade instanceof/cast.",
-    "tags": ["java21", "pattern-matching"]
-  },
-  {
-    "category": "Java",
-    "difficulty": "junior",
-    "question": "Quelle est la différence entre == et equals() sur un objet ?",
-    "answer": "== compare les références mémoire, equals() compare le contenu logique selon l'implémentation de la classe (à surcharger avec hashCode()).",
-    "tags": ["basics"]
-  },
-  {
-    "category": "Java",
-    "difficulty": "senior",
-    "question": "Comment diagnostiquer une fuite mémoire en production sur une JVM ?",
-    "answer": "Activer un heap dump (jmap/-XX:+HeapDumpOnOutOfMemoryError), l'analyser avec Eclipse MAT ou VisualVM pour identifier les objets dominants et leur chemin de rétention (GC roots), puis corréler avec les métriques Actuator/Prometheus.",
-    "tags": ["troubleshooting", "jvm"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "junior",
-    "question": "Que fait l'annotation @SpringBootApplication ?",
-    "answer": "Combine @Configuration, @EnableAutoConfiguration et @ComponentScan pour bootstrap l'application avec auto-configuration et scan des composants du package courant.",
-    "tags": ["annotations"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "medior",
-    "question": "Différence entre @Component, @Service, @Repository et @Controller ?",
-    "answer": "Toutes sont des stéréotypes de @Component détectés par le component-scan ; elles n'ont pas de différence technique forte sauf @Repository qui active la traduction des exceptions de persistance, et @Controller/@RestController qui active le mapping HTTP.",
-    "tags": ["di", "stereotypes"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "senior",
-    "question": "Comment fonctionne l'auto-configuration Spring Boot en interne ?",
-    "answer": "Via des classes annotées @Conditional (ConditionalOnClass, ConditionalOnMissingBean...) listées dans META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports, appliquées seulement si les conditions sont remplies.",
-    "tags": ["autoconfiguration", "internals"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "medior",
-    "question": "À quoi sert Spring Boot Actuator et citez 3 endpoints utiles.",
-    "answer": "Expose des endpoints d'observabilité/gestion : /actuator/health, /actuator/metrics, /actuator/prometheus, /actuator/env, utiles pour le monitoring et les probes Kubernetes.",
-    "tags": ["actuator", "observability"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "senior",
-    "question": "Comment gérer proprement la configuration multi-environnements (dev/staging/prod) ?",
-    "answer": "Profils Spring (application-{profil}.yml) + variables d'environnement/secret manager, activés via SPRING_PROFILES_ACTIVE, éventuellement combinés à Spring Cloud Config ou aux ConfigMaps/Secrets Kubernetes.",
-    "tags": ["profiles", "config"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "senior",
-    "question": "Quelle est la différence entre @Transactional REQUIRES_NEW et NESTED ?",
-    "answer": "REQUIRES_NEW suspend la transaction courante et en démarre une totalement indépendante (commit/rollback séparé). NESTED utilise un savepoint dans la transaction parente : un rollback du nested revient au savepoint sans annuler le tout.",
-    "tags": ["transactions", "jpa"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "medior",
-    "question": "Comment sécuriser une API REST avec Spring Security et JWT ?",
-    "answer": "Filtre custom (OncePerRequestFilter) qui valide le token JWT, extrait les claims/authorities, peuple le SecurityContext ; configuration via SecurityFilterChain avec règles d'autorisation par endpoint.",
-    "tags": ["security", "jwt"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "senior",
-    "question": "Comment tester une couche repository avec Testcontainers ?",
-    "answer": "Démarrer un vrai conteneur (PostgreSQL, Kafka, Redis) via @Testcontainers/@Container, injecter l'URL dynamique via @DynamicPropertySource, pour des tests d'intégration proches de la prod sans mocks.",
-    "tags": ["testing", "testcontainers"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "medior",
-    "question": "Quelle est la différence entre @Mock, @MockBean et @Spy en test ?",
-    "answer": "@Mock (Mockito) crée un mock isolé, @MockBean l'injecte dans le contexte Spring en remplaçant le bean réel, @Spy encapsule un vrai objet en permettant de stubber certaines méthodes seulement.",
-    "tags": ["testing", "mockito"]
-  },
-  {
-    "category": "Spring Boot",
-    "difficulty": "senior",
-    "question": "Comment gérer le versionnement d'API REST (backward compatibility) ?",
-    "answer": "Versionnement par URI (/v1, /v2), par header (Accept-Version), ou content negotiation ; toujours privilégier l'ajout de champs optionnels plutôt que la suppression pour rester rétro-compatible.",
-    "tags": ["api-design"]
-  }
+  {"category": "Java", "difficulty": "medior", "question": "Quelle est la différence entre une classe record et une classe classique en Java 17+ ?", "answer": "Un record est immuable par défaut, génère automatiquement equals/hashCode/toString et le constructeur canonique à partir des composants.", "tags": ["java17", "records"]},
+  {"category": "Java", "difficulty": "medior", "question": "Expliquez le fonctionnement des Virtual Threads (Project Loom, Java 21).", "answer": "Threads légers gérés par la JVM permettant de créer des millions de threads sans épuiser les ressources système.", "tags": ["java21", "concurrency"]},
+  {"category": "Java", "difficulty": "senior", "question": "CompletableFuture vs Thread classique ?", "answer": "CompletableFuture permet de composer des traitements async sans bloquer de thread dédié.", "tags": ["concurrency"]},
+  {"category": "Java", "difficulty": "senior", "question": "G1 vs ZGC ?", "answer": "G1 découpe le tas en régions ; ZGC vise des pauses sub-milliseconde sur de très gros tas.", "tags": ["jvm", "gc"]},
+  {"category": "Java", "difficulty": "medior", "question": "HashMap vs ConcurrentHashMap ?", "answer": "ConcurrentHashMap segmente les verrous pour un accès concurrent performant.", "tags": ["collections"]},
+  {"category": "Java", "difficulty": "medior", "question": "Pattern matching for switch (Java 21) ?", "answer": "Permet de matcher et décomposer un objet selon son type.", "tags": ["java21"]},
+  {"category": "Java", "difficulty": "junior", "question": "== vs equals() ?", "answer": "== compare les références, equals() compare le contenu logique.", "tags": ["basics"]},
+  {"category": "Java", "difficulty": "senior", "question": "Diagnostiquer une fuite mémoire JVM ?", "answer": "Heap dump + analyse MAT/VisualVM, corrélé avec Actuator/Prometheus.", "tags": ["troubleshooting"]},
+  {"category": "Spring Boot", "difficulty": "junior", "question": "@SpringBootApplication ?", "answer": "Combine @Configuration, @EnableAutoConfiguration et @ComponentScan.", "tags": ["annotations"]},
+  {"category": "Spring Boot", "difficulty": "medior", "question": "@Component vs @Service vs @Repository ?", "answer": "Stéréotypes de @Component ; @Repository traduit les exceptions de persistance.", "tags": ["di"]},
+  {"category": "Spring Boot", "difficulty": "senior", "question": "Auto-configuration Spring Boot en interne ?", "answer": "Classes @Conditional listées dans AutoConfiguration.imports, appliquées selon conditions.", "tags": ["autoconfiguration"]},
+  {"category": "Spring Boot", "difficulty": "medior", "question": "Spring Boot Actuator, 3 endpoints ?", "answer": "/actuator/health, /metrics, /prometheus.", "tags": ["actuator"]},
+  {"category": "Spring Boot", "difficulty": "senior", "question": "Config multi-environnements ?", "answer": "Profils Spring + variables d'env/secret manager via SPRING_PROFILES_ACTIVE.", "tags": ["profiles"]},
+  {"category": "Spring Boot", "difficulty": "senior", "question": "REQUIRES_NEW vs NESTED ?", "answer": "REQUIRES_NEW démarre une transaction indépendante ; NESTED utilise un savepoint.", "tags": ["transactions"]},
+  {"category": "Spring Boot", "difficulty": "medior", "question": "Sécuriser une API REST avec JWT ?", "answer": "Filtre custom qui valide le token et peuple le SecurityContext.", "tags": ["security"]},
+  {"category": "Spring Boot", "difficulty": "senior", "question": "Tester un repository avec Testcontainers ?", "answer": "Démarrer un vrai conteneur DB/Kafka/Redis via @Testcontainers.", "tags": ["testing"]},
+  {"category": "Spring Boot", "difficulty": "medior", "question": "@Mock vs @MockBean vs @Spy ?", "answer": "@MockBean remplace un bean dans le contexte Spring ; @Spy encapsule un vrai objet.", "tags": ["testing"]},
+  {"category": "Spring Boot", "difficulty": "senior", "question": "Versionnement d'API REST ?", "answer": "Versionnement par URI ou header, privilégier l'ajout de champs optionnels.", "tags": ["api-design"]},
+  {"category": "Kafka", "difficulty": "junior", "question": "Qu'est-ce qu'une partition Kafka ?", "answer": "Unité de parallélisme et d'ordonnancement au sein d'un topic.", "tags": ["fundamentals"]},
+  {"category": "Kafka", "difficulty": "medior", "question": "Rôle d'un consumer group ?", "answer": "Répartit les partitions entre consommateurs ; rebalancing à chaque changement de membres.", "tags": ["consumer-group"]},
+  {"category": "Kafka", "difficulty": "senior", "question": "Exactly-once avec Kafka ?", "answer": "Producteur idempotent + transactions Kafka + isolation.level=read_committed.", "tags": ["exactly-once"]},
+  {"category": "Kafka", "difficulty": "senior", "question": "acks=0 vs 1 vs all ?", "answer": "all garantit la réplication sur tous les ISR avant ack.", "tags": ["producer"]},
+  {"category": "Kafka", "difficulty": "medior", "question": "Gérer un message poison pill ?", "answer": "Retry borné puis routage vers une Dead Letter Topic.", "tags": ["dlq"]},
+  {"category": "Kafka", "difficulty": "senior", "question": "Dimensionner les partitions d'un topic ?", "answer": "Selon le débit cible et le nombre de consommateurs parallèles souhaité.", "tags": ["scaling"]},
+  {"category": "Kafka", "difficulty": "medior", "question": "Kafka vs RabbitMQ ?", "answer": "Kafka = log persistant rejouable ; RabbitMQ = broker classique push-based.", "tags": ["comparison"]},
+  {"category": "Redis", "difficulty": "junior", "question": "4 structures de données Redis ?", "answer": "String, Hash, List, Set, Sorted Set, Stream.", "tags": ["data-structures"]},
+  {"category": "Redis", "difficulty": "medior", "question": "Pourquoi Redis est rapide malgré mono-thread ?", "answer": "Données en mémoire, pas de lock, event loop non bloquant.", "tags": ["performance"]},
+  {"category": "Redis", "difficulty": "senior", "question": "Éviter le cache stampede ?", "answer": "Lock distribué (SETNX) ou early recomputation avec TTL probabiliste.", "tags": ["caching-patterns"]},
+  {"category": "Redis", "difficulty": "senior", "question": "Cache-Aside vs Write-Through vs Write-Behind ?", "answer": "Cache-Aside : appli gère le cache. Write-Through : synchrone. Write-Behind : asynchrone.", "tags": ["caching-patterns"]},
+  {"category": "Redis", "difficulty": "medior", "question": "TTL et politique d'éviction ?", "answer": "Expiration active/passive ; éviction selon allkeys-lru, volatile-ttl, etc.", "tags": ["ttl"]},
+  {"category": "Redis", "difficulty": "senior", "question": "Redis Cluster et sharding ?", "answer": "16384 hash slots répartis entre nœuds maîtres via CRC16.", "tags": ["cluster"]},
+  {"category": "Redis", "difficulty": "medior", "question": "RDB vs AOF ?", "answer": "RDB = snapshots périodiques ; AOF = journal de chaque écriture.", "tags": ["persistence"]},
+  {"category": "CI/CD", "difficulty": "junior", "question": "Workflow vs job vs step GitHub Actions ?", "answer": "Workflow contient des jobs (parallèles), chaque job contient des steps.", "tags": ["fundamentals"]},
+  {"category": "CI/CD", "difficulty": "medior", "question": "Sécuriser des secrets GitHub Actions ?", "answer": "Secrets stockés dans Settings, référencés via secrets.NOM, masqués dans les logs.", "tags": ["security"]},
+  {"category": "CI/CD", "difficulty": "medior", "question": "Cacher les dépendances Maven/Gradle ?", "answer": "actions/cache avec clé basée sur hash du pom.xml.", "tags": ["caching"]},
+  {"category": "CI/CD", "difficulty": "senior", "question": "Approbation manuelle avant prod ?", "answer": "Environment GitHub avec required reviewers.", "tags": ["environments"]},
+  {"category": "CI/CD", "difficulty": "senior", "question": "Matrix build ?", "answer": "Exécute le même job avec plusieurs combinaisons de variables en parallèle.", "tags": ["matrix"]},
+  {"category": "CI/CD", "difficulty": "senior", "question": "Passer un artefact entre jobs ?", "answer": "upload-artifact puis download-artifact avec needs.", "tags": ["artifacts"]},
+  {"category": "CI/CD", "difficulty": "senior", "question": "Intégrer SonarCloud dans GitHub Actions ?", "answer": "mvn verify sonar:sonar avec SONAR_TOKEN et Quality Gate bloquant.", "tags": ["sonarcloud"]},
+  {"category": "CI/CD", "difficulty": "medior", "question": "GitHub-hosted vs self-hosted runner ?", "answer": "Hosted = VM éphémère GitHub ; self-hosted = machine gérée par vous.", "tags": ["runners"]}
 ]
