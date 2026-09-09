@@ -39,5 +39,44 @@
       "jvm",
       "gc"
     ]
+  },
+  {
+    "category": "Java",
+    "difficulty": "medior",
+    "question": "Différence entre HashMap, ConcurrentHashMap et Collections.synchronizedMap ?",
+    "answer": "HashMap n'est pas thread-safe. synchronizedMap encapsule toutes les opérations avec un seul lock (contention forte). ConcurrentHashMap segmente les verrous (ou utilise CAS) pour un accès concurrent performant sans lock global.",
+    "tags": [
+      "collections",
+      "concurrency"
+    ]
+  },
+  {
+    "category": "Java",
+    "difficulty": "medior",
+    "question": "Qu'est-ce que le pattern matching for switch (Java 21) apporte ?",
+    "answer": "Permet de matcher un objet sur son type et de le décomposer (record patterns), rendant le code plus lisible qu'une cascade instanceof/cast.",
+    "tags": [
+      "java21",
+      "pattern-matching"
+    ]
+  },
+  {
+    "category": "Java",
+    "difficulty": "junior",
+    "question": "Quelle est la différence entre == et equals() sur un objet ?",
+    "answer": "== compare les références mémoire, equals() compare le contenu logique selon l'implémentation de la classe (à surcharger avec hashCode()).",
+    "tags": [
+      "basics"
+    ]
+  },
+  {
+    "category": "Java",
+    "difficulty": "senior",
+    "question": "Comment diagnostiquer une fuite mémoire en production sur une JVM ?",
+    "answer": "Activer un heap dump (jmap/-XX:+HeapDumpOnOutOfMemoryError), l'analyser avec Eclipse MAT ou VisualVM pour identifier les objets dominants et leur chemin de rétention (GC roots), puis corréler avec les métriques Actuator/Prometheus.",
+    "tags": [
+      "troubleshooting",
+      "jvm"
+    ]
   }
 ]
