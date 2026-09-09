@@ -1,1 +1,9 @@
-PLACEHOLDER_WILL_BE_REPLACED_WITH_REAL_JSON
+[
+  {
+    "category": "Java",
+    "difficulty": "medior",
+    "question": "Quelle est la différence entre une classe record et une classe classique en Java 17+ ?",
+    "answer": "Un record est immuable par défaut, génère automatiquement equals/hashCode/toString et le constructeur canonique à partir des composants. Il sert à modéliser des porteurs de données (DTO) de façon concise.",
+    "tags": ["java17", "records"]
+  }
+]
