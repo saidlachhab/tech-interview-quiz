@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import questions from "../data/questions.json";
+import questions from "/questions.json";
 
 function shuffle(arr) {
   const a = [...arr];
